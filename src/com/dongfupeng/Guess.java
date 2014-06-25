@@ -16,4 +16,7 @@ public class Guess {
 	
 	}
 
+	public String getSystemNumber() {
+		return systemNumber;
+	}
 }

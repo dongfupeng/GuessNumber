@@ -2,21 +2,21 @@ package com.dongfupeng;
 
 public class CompareNumber {
 
-	private int ACount;
-	private int BCount;
+	private int _ACount;
+	private int _BCount;
 
 	public String compare(String systemNumber, String guessNumber) {
-		ACount = 0;
-		BCount = 0;
+		_ACount = 0;
+		_BCount = 0;
 		for (int i = 0; i < guessNumber.length(); i++) {
 			if (systemNumber.contains(guessNumber.charAt(i) + "")) {
-				ACount++;
+				_ACount++;
 				if (!(systemNumber.charAt(i) == guessNumber.charAt(i))) {
-					BCount++;
-				}
-			}
+					_BCount++;
+				} 
+			} 
 		}
-		String result = ACount + "A" + BCount + "B";
+		String result = _ACount + "A" + _BCount + "B";
 		return result;
 	}
 
