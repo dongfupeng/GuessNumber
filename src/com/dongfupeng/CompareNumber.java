@@ -2,22 +2,55 @@ package com.dongfupeng;
 
 public class CompareNumber {
 
-	private int _ACount;
-	private int _BCount;
+	private int _sameNumberCounts;
+	private int _wrongPositionCounts;
+	private String _systemNumber, _guessNumber;
 
 	public String compare(String systemNumber, String guessNumber) {
-		_ACount = 0;
-		_BCount = 0;
-		for (int i = 0; i < guessNumber.length(); i++) {
-			if (systemNumber.contains(guessNumber.charAt(i) + "")) {
-				_ACount++;
-				if (!(systemNumber.charAt(i) == guessNumber.charAt(i))) {
-					_BCount++;
-				} 
-			} 
+
+		initCompareInfo(systemNumber, guessNumber);
+
+		compareTwoNumbers();
+
+		return getCompareResult();
+	}
+
+	private String getCompareResult() {
+		return _sameNumberCounts + "A" + _wrongPositionCounts + "B";
+	}
+
+	private void compareTwoNumbers() {
+		for (int i = 0; i < _guessNumber.length(); i++) {
+			if (isExistSameNumbers(i)) {
+				calculateSameNumberCounts();
+				calculateWrongPositonCounts(i);
+			}
 		}
-		String result = _ACount + "A" + _BCount + "B";
-		return result;
+	}
+
+	private boolean isExistSameNumbers(int i) {
+		return _systemNumber.contains(_guessNumber.charAt(i) + "");
+	}
+
+	private void calculateSameNumberCounts() {
+		_sameNumberCounts++;
+	}
+
+	private void calculateWrongPositonCounts(int i) {
+		if (sameNumbersIsNotInTheSamePosition(i)) {
+			_wrongPositionCounts++;
+		}
+	}
+
+	private boolean sameNumbersIsNotInTheSamePosition(int i) {
+		return !(_systemNumber.charAt(i) == _guessNumber.charAt(i));
+	}
+
+	private void initCompareInfo(String systemNumber, String guessNumber) {
+		_sameNumberCounts = 0;
+		_wrongPositionCounts = 0;
+		_systemNumber = systemNumber;
+		_guessNumber = guessNumber;
 	}
 
 }

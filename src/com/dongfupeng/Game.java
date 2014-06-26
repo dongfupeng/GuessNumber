@@ -7,14 +7,15 @@ public class Game {
 	/**
 	 * @param args
 	 */
-	private static int times = 6;
+	private static int _remainingTimes = 6;
 	static boolean isPlaying;
 	static Guess guess;
+	private static final String _WIN_GAME = "4A0B";
 
 	public static void main(String[] args) {
 		printeStartGame();
 		initGame();
-		startGame(guess);
+		playGame(guess);
 	}
 
 	private static void initGame() {
@@ -22,26 +23,41 @@ public class Game {
 		isPlaying = true;
 	}
 
-	//start 这一块不知道要怎么搞。。。。。
-	private static void startGame(Guess guess) {
-		String result;
+	//感觉这个方法的重构还是有点不足 不知道下一步该怎么做
+	private static void playGame(Guess guess) {
+		String itsCurrentResult;
 		while (isPlaying) {
-			result = guess.guessNumber(getInputMessage());
-			if ("4A0B".equals(result) || (times == 0)) {
-				isPlaying = false;
+			itsCurrentResult = guess.guessNumber(getInputMessage());
+			if (isFinishGame(itsCurrentResult)) {
+				finishGame();
 				printeGameFinalResult();
 			} else {
-				times--;
-				printeGameCurrentResult(result);
+				continueGame();
+				printeGameCurrentResult(itsCurrentResult);
 			}
 
 		}
 	}
-	//end
-	
+
+	private static void continueGame() {
+		_remainingTimes--;
+	}
+
+	private static void finishGame() {
+		isPlaying = false;
+	}
+
+	private static boolean isFinishGame(String result) {
+		return _WIN_GAME.equals(result) || (_remainingTimes == 0);
+	}
+
 	private static void printeStartGame() {
 		System.out.println("Welcome!");
-		System.out.println("Please input your number(" + times + ")");
+		printeRemainingTimes();
+	}
+
+	private static void printeRemainingTimes() {
+		System.out.println("Please input your number(" + _remainingTimes + ")");
 	}
 
 	private static String getInputMessage() {
@@ -51,13 +67,14 @@ public class Game {
 
 	private static void printeGameCurrentResult(String result) {
 		System.out.println(result);
-		System.out.println("Please input your number(" + times + ")");
+		printeRemainingTimes();
 	}
 
 	private static void printeGameFinalResult() {
-		if (times == 0) {
+		if (_remainingTimes == 0) {
 			System.out.println("Game Over");
-			System.out.println("The real Number is : "+guess.getSystemNumber());
+			System.out.println("The real Number is : "
+					+ guess.getSystemNumber());
 		} else {
 			System.out.println("Congratulations!");
 		}
